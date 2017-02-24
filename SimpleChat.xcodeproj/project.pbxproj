@@ -14,6 +14,7 @@
 		A2613E6A1E56E3A000C7F95D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A2613E681E56E3A000C7F95D /* LaunchScreen.storyboard */; };
 		A2613E721E56EDC800C7F95D /* RegisterPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2613E711E56EDC800C7F95D /* RegisterPageViewController.swift */; };
 		A2613E741E57057700C7F95D /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2613E731E57057700C7F95D /* LoginViewController.swift */; };
+		A2D20E801E60424E005B4CC0 /* ChattingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2D20E7F1E60424E005B4CC0 /* ChattingViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +27,7 @@
 		A2613E6B1E56E3A000C7F95D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A2613E711E56EDC800C7F95D /* RegisterPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RegisterPageViewController.swift; sourceTree = "<group>"; };
 		A2613E731E57057700C7F95D /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		A2D20E7F1E60424E005B4CC0 /* ChattingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChattingViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				A2613E6B1E56E3A000C7F95D /* Info.plist */,
 				A2613E711E56EDC800C7F95D /* RegisterPageViewController.swift */,
 				A2613E731E57057700C7F95D /* LoginViewController.swift */,
+				A2D20E7F1E60424E005B4CC0 /* ChattingViewController.swift */,
 			);
 			path = SimpleChat;
 			sourceTree = "<group>";
@@ -142,6 +145,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A2613E741E57057700C7F95D /* LoginViewController.swift in Sources */,
+				A2D20E801E60424E005B4CC0 /* ChattingViewController.swift in Sources */,
 				A2613E621E56E3A000C7F95D /* ViewController.swift in Sources */,
 				A2613E601E56E3A000C7F95D /* AppDelegate.swift in Sources */,
 				A2613E721E56EDC800C7F95D /* RegisterPageViewController.swift in Sources */,
@@ -292,6 +296,7 @@
 				A2613E701E56E3A000C7F95D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
