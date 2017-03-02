@@ -7,17 +7,31 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
     
     @IBOutlet weak var contactTable: UITableView!
     
-    let users = ["Nguyen Quoc Tuan", "Nguyen Duy Anh", "Nguyen Van Tin", "Ha Anh Tuan", "Tran Van Tam Em", "Tran Nam Nghien",
-        "Cao Thi Kim Chau"]
+    var ref: FIRDatabaseReference!
+    var users: NSDictionary!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        self.ref = FIRDatabase.database().reference()
+        
+        self.ref.child("Users").observeEventType(.Value, withBlock:{
+            (snapshot) in
+            
+            self.users = snapshot.value as? NSDictionary
+            
+            self.contactTable.reloadData()
+            
+            }) { (error) in
+                print(error.localizedDescription)
+        }
+
         
         self.contactTable.delegate =  self
         self.contactTable.dataSource = self
@@ -48,17 +62,27 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.users.count
+        return (self.users != nil) ? self.users.count : 0;
+
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("customcell", forIndexPath: indexPath)
-        cell.textLabel?.text = users[indexPath.item]
+        let cell = tableView.dequeueReusableCellWithIdentifier("ContactCell", forIndexPath: indexPath)
+        
+        cell.textLabel?.text = self.users.allValues[indexPath.item]["Name"] as? String
+        
         return cell
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        self.performSegueWithIdentifier("chatView", sender: self);
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+        if segue.identifier == "showDetail" {
+            if let indexPath = self.contactTable.indexPathForSelectedRow {
+                let user = self.users.allValues[indexPath.row]
+               
+               (segue.destinationViewController as! ChattingViewController).user = user
+            }
+        }
     }
+    
 }
 
