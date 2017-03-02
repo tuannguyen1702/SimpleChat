@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     @IBOutlet weak var contactTable: UITableView!
     
     var ref: FIRDatabaseReference!
-    var users: NSDictionary!
+    var users: Dictionary<String, AnyObject>!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,7 +24,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.ref.child("Users").observeEventType(.Value, withBlock:{
             (snapshot) in
             
-            self.users = snapshot.value as? NSDictionary
+            //self.users = snapshot.value as? NSDictionary
+            self.users = snapshot.value as! Dictionary<String, AnyObject>
             
             self.contactTable.reloadData()
             
@@ -69,7 +70,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ContactCell", forIndexPath: indexPath)
         
-        cell.textLabel?.text = self.users.allValues[indexPath.item]["Name"] as? String
+        cell.textLabel?.text = Array(self.users.values)[indexPath.item]["Name"] as? String
         
         return cell
     }
@@ -77,7 +78,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
         if segue.identifier == "showDetail" {
             if let indexPath = self.contactTable.indexPathForSelectedRow {
-                let user = self.users.allValues[indexPath.row]
+                let user = Array(self.users)[indexPath.row]
+                //self.users.indexOf(indexPath.row)
                
                (segue.destinationViewController as! ChattingViewController).user = user
             }

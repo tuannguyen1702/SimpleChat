@@ -15,8 +15,8 @@ import JSQMessagesViewController
 
 class ChattingViewController:JSQMessagesViewController {
     
-    var user: AnyObject!
-    var channelRef: FIRDatabaseReference?
+    var user: (String, AnyObject)!
+    var msgRef: FIRDatabaseReference!
     var messages = [JSQMessage]()
     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
@@ -28,6 +28,8 @@ class ChattingViewController:JSQMessagesViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        print(user)
         
         self.setup()
         self.addDemoMessages()
@@ -44,13 +46,29 @@ class ChattingViewController:JSQMessagesViewController {
     }
     
     func addDemoMessages() {
-        for i in 1...10 {
+        /*for i in 1...10 {
             let sender = (i%2 == 0) ? "Server" : self.senderId
             let messageContent = "Message nr. \(i)"
             let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
             self.messages += [message]
+        }*/
+        self.msgRef = FIRDatabase.database().reference()
+        let messageQuery = self.msgRef.child("Users").queryLimitedToLast(30)
+        //let test = self.msgRef.valueForKey("Users")
+        messageQuery.observeEventType(.Value, withBlock:{
+            (snapshot) in
+            let messageContentArr = snapshot.value as! Dictionary<String, AnyObject>
+            messageContentArr.forEach({ (messageContent: (String, AnyObject)) in
+                let message = JSQMessage(senderId: self.senderId, displayName: self.senderId, text: messageContent.1["Name"] as! String)
+                self.messages += [message]
+
+            })
+            self.reloadMessagesView()
+            
+        }) { (error) in
+            print(error.localizedDescription)
         }
-        self.reloadMessagesView()
+
     }
     
     func setup() {
