@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "SimpleChat/RegisterPageViewController.swift"
-            timestampString = "509019149.05729"
+            timestampString = "510229957.72748"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "40"
-            endingLineNumber = "40"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
             landmarkName = "registerButtonTapped(_:)"
             landmarkType = "5">
          </BreakpointContent>

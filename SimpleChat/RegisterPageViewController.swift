@@ -7,16 +7,25 @@
 //
 
 import UIKit
+import Firebase
 
 class RegisterPageViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var confirmPasswordTextField: UITextField!
+    @IBOutlet weak var displayNameTextField: UITextField!
     
+    var userRef: FIRDatabaseReference!
+    
+    var user: Dictionary<String, AnyObject>!
+    
+            // Do any additional setup after loading the view, typically from a nib.
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.userRef = FIRDatabase.database().reference().child("Users")
+        
         // Do any additional setup after loading the view.
     }
 
@@ -27,12 +36,13 @@ class RegisterPageViewController: UIViewController {
     
 
     @IBAction func registerButtonTapped(sender: AnyObject) {
+        let displayName = displayNameTextField.text!;
         let email = emailTextField.text!;
         let password = passwordTextField.text!;
         let confirmPassword = confirmPasswordTextField.text!;
         
         
-        if(email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
+        if(displayName.isEmpty || email.isEmpty || password.isEmpty || confirmPassword.isEmpty)
         {
             displayMyAlertMessage("All fields are required");
             return;
@@ -42,6 +52,20 @@ class RegisterPageViewController: UIViewController {
             displayMyAlertMessage("Passwords do not match");
             return;
         }
+        
+        let newUser = self.userRef.child(email)
+        
+        let userItem = [ // 2
+            "Name": displayName,
+            "Email": email,
+            "Password": password,
+        ]
+        
+        //self.user[email] = userItem
+        
+        
+        
+        newUser.setValue(userItem) // 3
         
         NSUserDefaults.standardUserDefaults().setObject(email, forKey: "email");
         NSUserDefaults.standardUserDefaults().setObject(password, forKey: "password");

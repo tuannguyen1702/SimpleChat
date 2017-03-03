@@ -7,14 +7,18 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
 
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
+    var userRef: FIRDatabaseReference!
+
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         // Do any additional setup after loading the view.
     }
 
@@ -38,6 +42,7 @@ class LoginViewController: UIViewController {
             if(password == passwordStored)
             {
                 NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn");
+                NSUserDefaults.standardUserDefaults().setObject(email, forKey: "username");
                 NSUserDefaults.standardUserDefaults().synchronize();
                 self.dismissViewControllerAnimated(true, completion: nil);
             }

@@ -70,41 +70,26 @@
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "SimpleChat.ChattingViewController.user.getter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.AnyObject&gt;"
+                  symbolName = "SimpleChat.ChattingViewController.user.setter : Swift.ImplicitlyUnwrappedOptional&lt;(Swift.String, Swift.AnyObject)&gt;"
                   moduleName = "SimpleChat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ivc/Desktop/PROJECTS/DMS/SimpleChat/ChattingViewController.swift"
-                  timestampString = "510145336.357228"
+                  timestampString = "510228504.976821"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
                   endingLineNumber = "0"
-                  offsetFromSymbolStart = "12">
+                  offsetFromSymbolStart = "64">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "SimpleChat.ChattingViewController.user.setter : Swift.ImplicitlyUnwrappedOptional&lt;Swift.AnyObject&gt;"
+                  symbolName = "SimpleChat.ChattingViewController.user.materializeForSet : Swift.ImplicitlyUnwrappedOptional&lt;(Swift.String, Swift.AnyObject)&gt;"
                   moduleName = "SimpleChat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ivc/Desktop/PROJECTS/DMS/SimpleChat/ChattingViewController.swift"
-                  timestampString = "510145336.357747"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "0"
-                  endingLineNumber = "0"
-                  offsetFromSymbolStart = "16">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimpleChat.ChattingViewController.user.materializeForSet : Swift.ImplicitlyUnwrappedOptional&lt;Swift.AnyObject&gt;"
-                  moduleName = "SimpleChat"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ivc/Desktop/PROJECTS/DMS/SimpleChat/ChattingViewController.swift"
-                  timestampString = "510145336.358311"
+                  timestampString = "510228504.977196"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "0"
@@ -119,12 +104,12 @@
                   moduleName = "SimpleChat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ivc/Desktop/PROJECTS/DMS/SimpleChat/ChattingViewController.swift"
-                  timestampString = "510145336.35886"
+                  timestampString = "510228504.977535"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "18"
                   endingLineNumber = "18"
-                  offsetFromSymbolStart = "69">
+                  offsetFromSymbolStart = "118">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -134,14 +119,62 @@
                   moduleName = "SimpleChat"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ivc/Desktop/PROJECTS/DMS/SimpleChat/ChattingViewController.swift"
-                  timestampString = "510145336.359123"
+                  timestampString = "510228504.977833"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "18"
                   endingLineNumber = "18"
-                  offsetFromSymbolStart = "31">
+                  offsetFromSymbolStart = "75">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleChat/RegisterPageViewController.swift"
+            timestampString = "510230751.005371"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "59"
+            endingLineNumber = "59"
+            landmarkName = "registerButtonTapped(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleChat/RegisterPageViewController.swift"
+            timestampString = "510230751.005371"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "68"
+            endingLineNumber = "68"
+            landmarkName = "registerButtonTapped(_:)"
+            landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleChat/ViewController.swift"
+            timestampString = "510228697.924291"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "28"
+            endingLineNumber = "28"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "5">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
