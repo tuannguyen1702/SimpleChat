@@ -19,6 +19,8 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.userRef = FIRDatabase.database().reference().child("Users")
         // Do any additional setup after loading the view.
     }
 
@@ -32,12 +34,33 @@ class LoginViewController: UIViewController {
         let email = emailTextField.text!;
         let password = passwordTextField.text!;
         
+        //let newUser = self.userRef.child(email)
         
-        let emailStored = NSUserDefaults.standardUserDefaults().stringForKey("email");
+        self.userRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            
+            if snapshot.hasChild(email){
+                let user = snapshot.childSnapshotForPath(email).value as! Dictionary<String, String>
+                
+                if(password == user["Password"])
+                {
+                    NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn");
+                    NSUserDefaults.standardUserDefaults().setObject(email, forKey: "username");
+                    NSUserDefaults.standardUserDefaults().synchronize();
+                    self.dismissViewControllerAnimated(true, completion: nil);
+                }
+                
+            }else{
+                
+                print("User doesn't exist")
+            }
+            
+            
+        })
+        //let emailStored = NSUserDefaults.standardUserDefaults().stringForKey("email");
         
-        let passwordStored = NSUserDefaults.standardUserDefaults().stringForKey("password");
+        //let passwordStored = NSUserDefaults.standardUserDefaults().stringForKey("password");
         
-        if(email == emailStored)
+        /*if(email == emailStored)
         {
             if(password == passwordStored)
             {
@@ -46,7 +69,7 @@ class LoginViewController: UIViewController {
                 NSUserDefaults.standardUserDefaults().synchronize();
                 self.dismissViewControllerAnimated(true, completion: nil);
             }
-        }
+        }*/
     }
 
     /*

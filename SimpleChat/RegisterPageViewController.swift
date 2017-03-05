@@ -53,32 +53,44 @@ class RegisterPageViewController: UIViewController {
             return;
         }
         
-        let newUser = self.userRef.child(email)
         
-        let userItem = [ // 2
-            "Name": displayName,
-            "Email": email,
-            "Password": password,
-        ]
+        
+        self.userRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            
+            if !snapshot.hasChild(email){
+                let newUser = self.userRef.child(email)
+                
+                let userItem = [ // 2
+                    "Name": displayName,
+                    "Email": email,
+                    "Password": password,
+                ]
+                newUser.setValue(userItem) // 3
+                
+                let myAlert = UIAlertController(title: "Alert", message:"Registration is success.", preferredStyle: UIAlertControllerStyle.Alert);
+                
+                let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default){ action in self.dismissViewControllerAnimated(true, completion: nil);
+                }
+                
+                myAlert.addAction(okAction);
+                self.presentViewController(myAlert, animated: true, completion: nil);
+                
+            }else{
+                self.displayMyAlertMessage("User is exist")
+                return
+            }
+            
+            
+        })
+
         
         //self.user[email] = userItem
+        //NSUserDefaults.standardUserDefaults().setObject(email, forKey: "email");
+        //NSUserDefaults.standardUserDefaults().setObject(password, forKey: "password");
+        
+        //NSUserDefaults.standardUserDefaults().synchronize();
         
         
-        
-        newUser.setValue(userItem) // 3
-        
-        NSUserDefaults.standardUserDefaults().setObject(email, forKey: "email");
-        NSUserDefaults.standardUserDefaults().setObject(password, forKey: "password");
-        
-        NSUserDefaults.standardUserDefaults().synchronize();
-        
-        let myAlert = UIAlertController(title: "Alert", message:"Registration is success.", preferredStyle: UIAlertControllerStyle.Alert);
-        
-        let okAction = UIAlertAction(title: "Ok", style: UIAlertActionStyle.Default){ action in self.dismissViewControllerAnimated(true, completion: nil);
-        }
-        
-        myAlert.addAction(okAction);
-        self.presentViewController(myAlert, animated: true, completion: nil);
     }
     
     func displayMyAlertMessage(messageText:String)

@@ -15,17 +15,22 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     var ref: FIRDatabaseReference!
     var users: Dictionary<String, AnyObject>!
+    var userLogin: String!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.ref = FIRDatabase.database().reference()
         
-        self.ref.child("Users").observeEventType(.Value, withBlock:{
+        let userRef = self.ref.child("Users")
+        userLogin = NSUserDefaults.standardUserDefaults().objectForKey("username") as! String;
+        
+        userRef.observeEventType(.Value, withBlock:{
             (snapshot) in
             
             //self.users = snapshot.value as? NSDictionary
             self.users = snapshot.value as! Dictionary<String, AnyObject>
+            self.users.removeValueForKey(self.userLogin)
             
             self.contactTable.reloadData()
             
@@ -69,8 +74,8 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("ContactCell", forIndexPath: indexPath)
-        
-        cell.textLabel?.text = Array(self.users.values)[indexPath.item]["Name"] as? String
+       
+        cell.textLabel?.text =  Array(self.users.values)[indexPath.item]["Name"] as? String
         
         return cell
     }
