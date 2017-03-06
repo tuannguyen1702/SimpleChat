@@ -23,14 +23,20 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         self.ref = FIRDatabase.database().reference()
         
         let userRef = self.ref.child("Users")
-        userLogin = NSUserDefaults.standardUserDefaults().objectForKey("username") as! String;
+        if(NSUserDefaults.standardUserDefaults().objectForKey("username") != nil)
+        {
+            userLogin = NSUserDefaults.standardUserDefaults().objectForKey("username") as! String
+        }
         
         userRef.observeEventType(.Value, withBlock:{
             (snapshot) in
             
             //self.users = snapshot.value as? NSDictionary
             self.users = snapshot.value as! Dictionary<String, AnyObject>
-            self.users.removeValueForKey(self.userLogin)
+            if (self.userLogin != nil)
+            {
+                self.users.removeValueForKey(self.userLogin)
+            }
             
             self.contactTable.reloadData()
             
@@ -62,6 +68,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
     
     @IBAction func logoutButtonTapped(sender: AnyObject) {
         NSUserDefaults.standardUserDefaults().setBool(false, forKey: "isLoggedIn");
+        NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "username");
         NSUserDefaults.standardUserDefaults().synchronize();
         
         self.performSegueWithIdentifier("loginView", sender: self);

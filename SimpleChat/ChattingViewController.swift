@@ -17,7 +17,12 @@ class ChattingViewController:JSQMessagesViewController {
     
     var user: (String, AnyObject)!
     var msgRef: FIRDatabaseReference!
+    var listMes: FIRDatabaseReference!
     var messages = [JSQMessage]()
+    var userLogin: String!
+    var userReceiver: String!
+    var roomName: String!
+
     
     let incomingBubble = JSQMessagesBubbleImageFactory().incomingMessagesBubbleImageWithColor(UIColor(red: 10/255, green: 180/255, blue: 230/255, alpha: 1.0))
     let outgoingBubble = JSQMessagesBubbleImageFactory().outgoingMessagesBubbleImageWithColor(UIColor.lightGrayColor())
@@ -29,7 +34,9 @@ class ChattingViewController:JSQMessagesViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print(user)
+        self.msgRef = FIRDatabase.database().reference().child("Messages")
+        self.userLogin = NSUserDefaults.standardUserDefaults().objectForKey("username") as! String;
+        self.userReceiver = self.user.0
         
         self.setup()
         self.addDemoMessages()
@@ -52,23 +59,44 @@ class ChattingViewController:JSQMessagesViewController {
             let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
             self.messages += [message]
         }*/
-        self.msgRef = FIRDatabase.database().reference()
-        let messageQuery = self.msgRef.child("Users").queryLimitedToLast(30)
-        //let test = self.msgRef.valueForKey("Users")
-        messageQuery.observeEventType(.Value, withBlock:{
-            (snapshot) in
-            let messageContentArr = snapshot.value as! Dictionary<String, AnyObject>
-            messageContentArr.forEach({ (messageContent: (String, AnyObject)) in
-                let message = JSQMessage(senderId: self.senderId, displayName: self.senderId, text: messageContent.1["Name"] as! String)
-                self.messages += [message]
-
-            })
-            self.reloadMessagesView()
+        //self.msgRef = FIRDatabase.database().reference()
+        //let messageQuery = self.msgRef
+        self.roomName = "\(self.userLogin)_\(self.userReceiver)"
+        
+        self.msgRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
+            if !snapshot.hasChild(self.roomName)
+            {
+                self.roomName = "\(self.userReceiver)_\(self.userLogin)"
+            }
             
-        }) { (error) in
-            print(error.localizedDescription)
-        }
+            self.listMes = self.msgRef.child(self.roomName);
+            
+            self.listMes.observeEventType(.Value, withBlock:{
+                (snapshot) in
+                if (snapshot.childrenCount > 0){
+                    let messageContentArr = snapshot.value as! Dictionary<String, AnyObject>
+                    self.messages = [JSQMessage]()
+                    messageContentArr.forEach({ (messageContent: (String, AnyObject)) in
+                        
+                    var sender = "Server"
+                    if messageContent.1["SenderId"] != nil{
+                        sender = (messageContent.1["SenderId"] as? String != self.userLogin) ? "Server" : self.senderId
+                    }
+                    let message = JSQMessage(senderId: sender, displayName: "Test", text: messageContent.1["Message"] as! String)
+                    self.messages += [message]
+                    
+                    })
+                    self.reloadMessagesView()
+                }
+                
+                }) { (error) in
+                    print(error.localizedDescription)
+            }
 
+            
+        })
+        
+        
     }
     
     func setup() {
@@ -104,8 +132,20 @@ class ChattingViewController:JSQMessagesViewController {
     }
     
     override func didPressSendButton(button: UIButton!, withMessageText text: String!, senderId: String!, senderDisplayName: String!, date: NSDate!) {
-        let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
-        self.messages += [message]
+        
+        
+        //let message = JSQMessage(senderId: senderId, senderDisplayName: senderDisplayName, date: date, text: text)
+        //self.messages += [message]
+        
+        let newMes = self.listMes.childByAutoId()
+        
+        let mesText = text as String!
+        
+        let mesItem = [ // 2
+            "SenderId": self.userLogin!,
+            "Message": mesText!        ]
+        newMes.setValue(mesItem) // 3
+        
         self.finishSendingMessage()
     }
     
