@@ -16,6 +16,7 @@ import JSQMessagesViewController
 class ChattingViewController:JSQMessagesViewController {
     
     var user: (String, AnyObject)!
+    //var user: (AnyObject, AnyObject)!
     var msgRef: FIRDatabaseReference!
     var listMes: FIRDatabaseReference!
     var messages = [JSQMessage]()
@@ -33,10 +34,11 @@ class ChattingViewController:JSQMessagesViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.title = user.1["Name"] as! String
         
         self.msgRef = FIRDatabase.database().reference().child("Messages")
         self.userLogin = NSUserDefaults.standardUserDefaults().objectForKey("username") as! String;
-        self.userReceiver = self.user.0
+        self.userReceiver = self.user.0 
         
         self.setup()
         self.addDemoMessages()
@@ -136,7 +138,7 @@ class ChattingViewController:JSQMessagesViewController {
         mesData["Message"] = mesText
         mesData["Date"] = String(date)
         
-        newMes.setValue(mesData) // 3
+        newMes.setValue(mesData)
         
         self.finishSendingMessage()
     }
