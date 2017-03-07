@@ -53,14 +53,6 @@ class ChattingViewController:JSQMessagesViewController {
     }
     
     func addDemoMessages() {
-        /*for i in 1...10 {
-            let sender = (i%2 == 0) ? "Server" : self.senderId
-            let messageContent = "Message nr. \(i)"
-            let message = JSQMessage(senderId: sender, displayName: sender, text: messageContent)
-            self.messages += [message]
-        }*/
-        //self.msgRef = FIRDatabase.database().reference()
-        //let messageQuery = self.msgRef
         self.roomName = "\(self.userLogin)_\(self.userReceiver)"
         
         self.msgRef.observeSingleEventOfType(.Value, withBlock: { (snapshot) in
@@ -69,23 +61,21 @@ class ChattingViewController:JSQMessagesViewController {
                 self.roomName = "\(self.userReceiver)_\(self.userLogin)"
             }
             
-            self.listMes = self.msgRef.child(self.roomName);
+            self.listMes = self.msgRef.child(self.roomName)
             
             self.listMes.observeEventType(.Value, withBlock:{
                 (snapshot) in
                 if (snapshot.childrenCount > 0){
-                    let messageContentArr = snapshot.value as! Dictionary<String, AnyObject>
                     self.messages = [JSQMessage]()
-                    messageContentArr.forEach({ (messageContent: (String, AnyObject)) in
-                        
-                    var sender = "Server"
-                    if messageContent.1["SenderId"] != nil{
-                        sender = (messageContent.1["SenderId"] as? String != self.userLogin) ? "Server" : self.senderId
+                    for snapshotItem in snapshot.children.allObjects as! [FIRDataSnapshot]  {
+                        let messageContent = snapshotItem.value as! Dictionary<String,AnyObject>
+                        var sender = "Server"
+                        if messageContent["SenderId"] != nil{
+                            sender = (messageContent["SenderId"] as? String != self.userLogin) ? "Server" : self.senderId
+                        }
+                        let message = JSQMessage(senderId: sender, displayName: "Test", text: messageContent["Message"] as! String)
+                        self.messages += [message]
                     }
-                    let message = JSQMessage(senderId: sender, displayName: "Test", text: messageContent.1["Message"] as! String)
-                    self.messages += [message]
-                    
-                    })
                     self.reloadMessagesView()
                 }
                 
@@ -141,10 +131,12 @@ class ChattingViewController:JSQMessagesViewController {
         
         let mesText = text as String!
         
-        let mesItem = [ // 2
-            "SenderId": self.userLogin!,
-            "Message": mesText!        ]
-        newMes.setValue(mesItem) // 3
+        var mesData = Dictionary<String, String> ()
+        mesData["SenderId"] = self.userLogin
+        mesData["Message"] = mesText
+        mesData["Date"] = String(date)
+        
+        newMes.setValue(mesData) // 3
         
         self.finishSendingMessage()
     }

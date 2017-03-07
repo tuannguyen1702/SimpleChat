@@ -46,7 +46,9 @@ class LoginViewController: UIViewController {
                     NSUserDefaults.standardUserDefaults().setBool(true, forKey: "isLoggedIn");
                     NSUserDefaults.standardUserDefaults().setObject(email, forKey: "username");
                     NSUserDefaults.standardUserDefaults().synchronize();
-                    self.dismissViewControllerAnimated(true, completion: nil);
+                    
+                    self.navigationController?.dismissViewControllerAnimated(true, completion: nil);
+//                    self.dismissViewControllerAnimated(true, completion: nil);
                 }
                 
             }else{

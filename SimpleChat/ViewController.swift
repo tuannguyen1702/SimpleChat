@@ -22,6 +22,26 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         // Do any additional setup after loading the view, typically from a nib.
         self.ref = FIRDatabase.database().reference()
         
+        self.contactTable.delegate =  self
+        self.contactTable.dataSource = self
+        self.contactTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "customcell")
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        
+        
+        //self.contactTable.reloadData()
+        
+        let isLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn");
+        if(!isLoggedIn){
+            self.performSegueWithIdentifier("loginView", sender: self);
+        }
+        
         let userRef = self.ref.child("Users")
         if(NSUserDefaults.standardUserDefaults().objectForKey("username") != nil)
         {
@@ -44,26 +64,6 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
                 print(error.localizedDescription)
         }
 
-        
-        self.contactTable.delegate =  self
-        self.contactTable.dataSource = self
-        self.contactTable.registerClass(UITableViewCell.self, forCellReuseIdentifier: "customcell")
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-    override func viewDidAppear(animated: Bool) {
-        
-        self.contactTable.reloadData()
-        
-        let isLoggedIn = NSUserDefaults.standardUserDefaults().boolForKey("isLoggedIn");
-        if(!isLoggedIn){
-            self.performSegueWithIdentifier("loginView", sender: self);
-        }
-        
     }
     
     @IBAction func logoutButtonTapped(sender: AnyObject) {
@@ -71,7 +71,7 @@ class ViewController: UIViewController, UITableViewDataSource, UITableViewDelega
         NSUserDefaults.standardUserDefaults().setObject(nil, forKey: "username");
         NSUserDefaults.standardUserDefaults().synchronize();
         
-        self.performSegueWithIdentifier("loginView", sender: self);
+//        self.performSegueWithIdentifier("loginView", sender: self);
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

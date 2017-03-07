@@ -92,6 +92,9 @@ class RegisterPageViewController: UIViewController {
         
         
     }
+    @IBAction func backLoginButtonTapped(sender: AnyObject) {
+        self.navigationController?.popViewControllerAnimated(true)
+    }
     
     func displayMyAlertMessage(messageText:String)
     {
